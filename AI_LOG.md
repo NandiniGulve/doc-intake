@@ -20,7 +20,7 @@ The AI suggested separating the application into:
 I followed this approach because it matched the requirements of the technical test and made the responsibilities of each part clear.
 
 ---
-2. Reviewing the Implementation Against the Assignment
+## 2. Reviewing the Implementation Against the Assignment
 
 After the initial implementation, I specifically reviewed whether the application covered all the requirements in the provided technical-test brief.
 
@@ -42,7 +42,7 @@ Test fixtures for valid, ambiguous, and malformed LLM responses were missing.
 
 These were treated as engineering gaps rather than assuming that the initial implementation was complete.
 
-3. Correcting the Identified Gaps
+## 3. Correcting the Identified Gaps
 
 Prompt used:
 
@@ -92,7 +92,7 @@ Malformed output
 
 This provides a way to test how the application behaves when the AI component does not behave perfectly.
 
-4. Testing and Validation
+## 4. Testing and Validation
 
 I did not rely only on the generated implementation. I ran the automated test suite locally and also tested the application manually through the user interface.
 
@@ -110,8 +110,8 @@ The automated test suite initially passed 31 tests.
 
 After additional fixes and regression tests were added, the test suite reached 33 passing tests.
 
-5. Issues Found During Testing
-5.1 Incomplete Executor Information
+## 5. Issues Found During Testing
+### 5.1 Incomplete Executor Information
 
 During manual testing, I found an issue with partially confirmed executor information.
 
@@ -127,7 +127,7 @@ The application does not generate a misleading half-complete executor entry.
 
 Additional tests were added to prevent regression.
 
-5.2 Incorrect Confirmation Wording
+### 5.2 Incorrect Confirmation Wording
 
 During testing, the application sometimes responded with wording such as "Thanks" even though a change was still waiting for confirmation.
 
@@ -143,7 +143,7 @@ Confirmed and stored
 
 This keeps the conversational response consistent with the actual structured state.
 
-5.3 Python Indentation Error
+### 5.3 Python Indentation Error
 
 While applying one of the fixes, an IndentationError was introduced into the Python code due to incorrect indentation during a copy/paste.
 
@@ -155,7 +155,7 @@ After correcting the issue, the tests passed successfully.
 
 This was a useful reminder that generated code must still be executed and validated rather than being accepted based only on visual inspection.
 
-5.4 Environment Configuration
+### 5.4 Environment Configuration
 
 I also identified an issue with environment configuration.
 
@@ -167,11 +167,11 @@ Environment loading was added using python-dotenv, together with load_dotenv() d
 
 This allows configuration such as the LLM provider and API key to be read from the environment without hard-coding secrets in the source code.
 
-6. Reviewing AI-Generated Suggestions
+## 6. Reviewing AI-Generated Suggestions
 
 During development, I did not assume that every AI-generated suggestion was correct.
 
-One example was the initial AI-generated documentation. It described some implementation details that did not exactly match the final project structure. I compared the documentation against the actual code and revised it so that the documentation reflects the implemented system rather than the originally proposed design.
+One example was the initial AI-generated documentation. It described some implementation details that did not exactly match the fgit add -Ainal project structure. I compared the documentation against the actual code and revised it so that the documentation reflects the implemented system rather than the originally proposed design.
 
 I also treated the real LLM integration as unverified until it could be tested against the actual provider. The deterministic mock provider was used for reliable local development and testing.
 
