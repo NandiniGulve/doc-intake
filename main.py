@@ -10,6 +10,8 @@ from core.document import render
 from llm.factory import get_llm
 
 app = FastAPI(title="Document Intake Assistant")
+from dotenv import load_dotenv
+load_dotenv()
 llm, LLM_MODE, CONFIG_WARNING = get_llm()
 SESSIONS: dict[str, dict] = {}  # in-memory; swap for a DB in production
 

@@ -42,7 +42,11 @@ def new_session() -> dict:
 
 
 def applicable(values: dict, path: str) -> bool:
-    return path != "children_names" or values["has_children"] is True
+    if path == "children_names":
+        return values["has_children"] is True
+    if path == "executor.relationship":  # pointless to ask without a name
+        return values["executor"]["name"] is not None
+    return True
 
 
 def flatten(updates) -> tuple[dict, list[str]]:

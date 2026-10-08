@@ -155,9 +155,13 @@ def process_turn(session: dict, history: list, message: str, llm) -> dict:
     elif not progress and not notes:
         notes.append("I didn't catch anything new.")
 
+    if vals["executor"]["name"] is None and s["status"]["executor.relationship"] == "unconfirmed":
+        _set(s, "executor.relationship", None, "unknown", [])  # no half-filled executor
+
     ack = data.get("ack") if isinstance(data.get("ack"), str) else ""
     nxt = next_action(s)
-    parts = ([ack[:200]] if progress and ack else []) + notes
+    captured = bool(changes) or any(conf.values())  # a pending change is not "captured"
+    parts = ([ack[:200]] if captured and ack else []) + notes
     if asked and not progress and not notes and nxt:
         parts.insert(0, "I didn't catch a clear answer.")
     parts.append(prompt(s, nxt))

@@ -79,6 +79,18 @@ class Tests(unittest.TestCase):
         self.assertNotEqual(r["asking"]["path"], "covers_worldwide_assets")
         self.assertIsNone(r["session"]["values"]["covers_worldwide_assets"])
 
+    def test_giving_up_on_executor_name_does_not_leave_half_filled_executor(self):
+        s = turn(new_session(), "I think my executor is probably my brother James")["session"]
+        s = turn(s, "not sure")["session"]
+        r = turn(s, "not sure")
+        v = r["session"]["values"]["executor"]
+        self.assertEqual(v, {"name": None, "relationship": None})
+        self.assertNotEqual((r["asking"] or {}).get("path"), "executor.relationship")
+
+    def test_pending_change_reply_does_not_say_thanks(self):
+        r = turn(session_with(full_name="Jane Smith"), "My name is Jane Jones")
+        self.assertNotIn("Thanks", r["reply"])
+
     def test_skipped_field_can_be_filled_later(self):
         s = session_with(full_name="J", home_address="X Street 1")
         s["skipped"] = ["covers_worldwide_assets"]
