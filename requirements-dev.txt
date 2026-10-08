@@ -1,0 +1,1 @@
+httpx  # only needed for tests/test_api.py (FastAPI TestClient)

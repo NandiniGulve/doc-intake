@@ -1,0 +1,3 @@
+{"description": "Ambiguous: hedged answer stays unconfirmed and is queried back",
+ "raw": "{\"updates\": {}, \"tentative\": {\"executor\": {\"name\": \"James\"}}}",
+ "expect": {"values": {"executor.name": "James"}, "status": {"executor.name": "unconfirmed"}, "reply_contains": "is that right"}}

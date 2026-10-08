@@ -1,0 +1,4 @@
+{"description": "Valid: several fields at once, nested executor",
+ "raw": "{\"updates\": {\"full_name\": \"Jane Smith\", \"covers_worldwide_assets\": true, \"executor\": {\"name\": \"James Smith\", \"relationship\": \"brother\"}}, \"ack\": \"Thanks.\"}",
+ "expect": {"values": {"full_name": "Jane Smith", "covers_worldwide_assets": true, "executor.name": "James Smith", "executor.relationship": "brother"},
+            "status": {"full_name": "confirmed", "executor.name": "confirmed"}, "errors": false}}

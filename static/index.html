@@ -1,0 +1,28 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Document Intake Assistant</title>
+<style>body{font-family:system-ui;margin:0;display:grid;grid-template-columns:1fr 1fr;height:100vh}
+section{padding:1rem;overflow:auto;border-right:1px solid #ddd}.u{color:#4b1fbf}
+#log p{margin:.4rem 0}pre{white-space:pre-wrap;background:#f6f4ff;padding:1rem;border-radius:8px}
+input{width:75%;padding:.5rem}table{font-size:.85rem}td{padding:2px 8px;vertical-align:top}
+.unknown{color:#999}.unconfirmed{background:#fff3cd}.confirmed{background:#e6f4ea}
+#warn{background:#ffe0e0;padding:.5rem;border-radius:6px;display:none}</style></head><body>
+<section><div id="warn"></div><h3>Chat</h3><div id="log"></div>
+<input id="in" placeholder="Type here..." autofocus><button onclick="send()">Send</button></section>
+<section><h3>Structured state <small id="mode"></small></h3><table id="st"></table>
+<h3>Draft document</h3><pre id="doc"></pre></section>
+<script>
+let sid; const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const flat=(o,p='')=>Object.entries(o).flatMap(([k,v])=>v&&typeof v==='object'&&!Array.isArray(v)?flat(v,p+k+'.'):[[p+k,v]]);
+function paint(d){sid=d.session_id;
+ $('mode').textContent='(model: '+d.llm_mode+')';
+ $('warn').style.display=d.config_warning?'block':'none'; $('warn').textContent=d.config_warning||'';
+ $('log').innerHTML=d.history.map(m=>`<p class="${m.role=='user'?'u':''}"><b>${m.role=='user'?'You':'Assistant'}:</b> ${esc(m.content)}</p>`).join('');
+ $('st').innerHTML=flat(d.state).map(([k,v])=>{const st=d.status[k];const pend=d.pending_changes[k];
+  return `<tr class="${st}"><td>${k}</td><td>${v===null?'<i>unknown</i>':esc(JSON.stringify(v))}${pend!==undefined?' <b>&rarr; change to '+esc(JSON.stringify(pend))+'?</b>':''}</td><td>${st}</td></tr>`}).join('');
+ $('doc').textContent=d.document;}
+async function send(){const m=$('in').value.trim();if(!m)return;$('in').value='';
+ const r=await fetch(`/api/sessions/${sid}/messages`,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({message:m})});
+ r.ok?paint(await r.json()):alert('Error '+r.status);}
+$('in').addEventListener('keydown',e=>e.key=='Enter'&&send());
+fetch('/api/sessions',{method:'POST'}).then(r=>r.json()).then(paint);
+</script></body></html>

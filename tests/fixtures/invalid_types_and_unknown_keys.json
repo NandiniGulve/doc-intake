@@ -1,0 +1,3 @@
+{"description": "Invalid: wrong types / unknown fields are rejected, good fields still applied",
+ "raw": "{\"updates\": {\"has_children\": \"yes\", \"favourite_colour\": \"red\", \"full_name\": \"Jane Smith\"}}",
+ "expect": {"values": {"has_children": null, "full_name": "Jane Smith"}, "errors": true}}

@@ -1,0 +1,2 @@
+{"description": "Malformed: valid JSON but wrong shape", "raw": "[1, 2, 3]",
+ "expect": {"state_unchanged": true, "errors": true}}

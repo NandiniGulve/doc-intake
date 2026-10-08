@@ -1,0 +1,3 @@
+{"description": "Valid JSON wrapped in a markdown fence (models do this)",
+ "raw": "```json\n{\"updates\": {\"full_name\": \"Jane Smith\"}}\n```",
+ "expect": {"values": {"full_name": "Jane Smith"}, "errors": false}}

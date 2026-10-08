@@ -1,0 +1,3 @@
+{"description": "Ambiguous: model extracts nothing; state unchanged and user is re-asked",
+ "raw": "{\"updates\": {}}",
+ "expect": {"values": {"full_name": null}, "reply_contains": "didn't catch"}}

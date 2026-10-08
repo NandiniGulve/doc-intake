@@ -1,0 +1,2 @@
+{"description": "Malformed: prose instead of JSON", "raw": "Sure! Happy to help {oops",
+ "expect": {"state_unchanged": true, "errors": true, "reply_contains": "trouble"}}

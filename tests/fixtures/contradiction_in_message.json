@@ -1,0 +1,3 @@
+{"description": "Contradictory: no children but children named",
+ "raw": "{\"updates\": {\"has_children\": false, \"children_names\": [\"Bob\"]}}",
+ "expect": {"values": {"has_children": null, "children_names": null}, "reply_contains": "which is right"}}
